@@ -1,5 +1,5 @@
 :root{
-    --font: 'Times New Roman', Times, serif;
+    --font: 'Poppins', sans-serif;
     --color1: #8153ff; 
     --color2: #ff6b58;
     --color3: #6f3bff;
@@ -18,7 +18,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(1, 0, 51);
+    background-color: #20153f;
     height: 100vh;
     width: 100vw;
 }
@@ -28,7 +28,6 @@ body{
     flex-direction: column;
     gap: 25px;
     width: 450px;
-    height: 500px;
     border-radius: 15px;
     background-color: #fff;
     padding: 30px;
@@ -42,34 +41,34 @@ body{
     text-align: center;
 }
 
-.todo-container input{
+.input{
     height: 50px;
     width: 100%;
     padding: 0 10px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     border-radius: 10px;
     border: 2px solid #555555;
     outline: none;
     transition: border-color .5s ease-in-out;
 }
 
-.todo-container input:focus{
+.input:focus{
     border-color: var(--color1);
 }
 
-.todo-container > button{
+.todo-container > button, .modal > div button{
     height: 50px;
     width: 100%;
     background-color: var(--color1);
     border: none;
     border-radius: 10px;
     color: #fff;
-    font-size: 1.1rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: background-color .5s ease-in-out;
 }
 
-.todo-container > button:hover{
+.todo-container > button:hover, .modal > div button:hover{
     background-color: var(--color3);
 }
 
@@ -77,9 +76,10 @@ body{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    height: 300px;
+    height: 250px;
     list-style: none;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .todo-list::-webkit-scrollbar{
@@ -102,12 +102,15 @@ body{
     background-color: var(--color2);
     color: #fff;font-size: 1rem;
     border-radius: 10px;
-    word-break: break-all;
+    line-break: loose;
     cursor: pointer;
 }
 
 .todo-item > p{
     flex-grow: 1;
+    text-overflow: ellipsis;
+    white-space: nowwrap;
+    overflow: hidden;
 }
 
 .todo-item div{
@@ -116,8 +119,11 @@ body{
 }
 
 .todo-item button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 45px;
-    width: 45px;
+    min-width: 45px;
     border: 1px solid #fff;
     border-radius: 10px;
     background-color: transparent;
@@ -135,4 +141,65 @@ body{
 .edit-item, .delete-item, .status-item{
     font-size: 1.3rem;
     color: #fff;
+}
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.modal h2{
+    font-weight: 500;
+}
+
+.modal > div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.modal > div button{
+    margin-top: 25px;
+}
+
+.modal > div label{
+    font-weight: 500;
+}
+
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (max-width: 500px) {
+    .todo-container{
+        width: calc(100% - 20px);
+        margin: 0 10px;
+        padding: 20px;
+    }
+
+    .todo-item > button{
+        display: none;
+    }
+
+    .todo-item p {
+        font-size: .9rem;
+    }
+
+    .modal{
+        width: 300px;
+    }
 }

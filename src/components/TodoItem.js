@@ -1,15 +1,15 @@
 import { RiDeleteBin2Fill, RiPencilFill, RiCheckFill, RiCloseFill } from 'react-icons/ri';
 
-function TodoItem ({item, deleteItem, completeItem}) {
+function TodoItem ({item, deleteItem, completeItem, openModal}) {
     return(
-        <li className={item.done? 'todo-item complete-item' : 'todo-item incomplete-item'}>
-            <button onClick={() => completeItem(item)}>
+        <li className={item.done? 'todo-item complete-item' : 'todo-item incomplete-item'} onClick={(e) => completeItem(item)}>
+            <button>
                {item.done ? <RiCloseFill className='status-item'/> : <RiCheckFill className='status-item'/>}
             </button>
             <p>{item.value}</p>
             <div>
-                <button><RiPencilFill className="edit-item"/></button>
-                <button onClick={() => deleteItem(item)}><RiDeleteBin2Fill className="delete-item"/></button>
+                <button onClick={(e) => openModal(item, e)}><RiPencilFill className="edit-item"/></button>
+                <button onClick={(e) => deleteItem(item, e)}><RiDeleteBin2Fill className="delete-item"/></button>
             </div>
         </li>
     )
