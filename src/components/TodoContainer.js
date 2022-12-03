@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef} from "react";
 import TodoList from "./TodoList";
 import Modal from 'react-modal';
+import { RiCloseFill } from "react-icons/ri";
 
+//Toast
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+//Modal
 Modal.setAppElement('#root');
 
 function TodoContainer () {
@@ -27,6 +33,8 @@ function TodoContainer () {
         if (inputValue.length > 0) {
             setTodoList([{value: inputValue, done: false}, ...todoList]);
             setInputValue('');
+        }else{
+            notify('error');
         }
     } 
 
@@ -43,6 +51,7 @@ function TodoContainer () {
     const completeItem = (item) => {
         item.done = !item.done;
         setTodoList([...todoList])
+        if(item.done === true) notify('complete');
     }
 
     const openModal = (item, e) => {
@@ -62,11 +71,57 @@ function TodoContainer () {
             todoList[index].value = editInput;
             setTodoList(todoList);
             closeModal();
-            
+            notify('success_edit')
+
             setTimeout(() => {
                 input.current.focus();
             }, 10);
+        }else{
+            notify('error')
         }
+    }
+
+    const notify = (type) => {
+
+        switch (type){
+        case 'error':
+            toast.error('Give your task a name!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+            break;
+        case 'complete':
+            toast.success("Congrats! You've completed a task!", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+            break;
+        case 'success_edit':
+            toast.success('Your task was updated!', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+            break;
+        }
+
     }
 
     return(
@@ -82,13 +137,17 @@ function TodoContainer () {
             className='modal'
             overlayClassName='overlay'
             >
-            <h2>Edit Task</h2>
-            <div>
+            <div className="modal-title">
+                <h2>Edit Task</h2>
+                <RiCloseFill className="close-modal" onClick={() => closeModal()}/>
+            </div>
+            <div className="modal-content">
                 <label htmlFor="task">Task title</label>
                 <input type="text" id="task" className='input' value={editInput} onChange={(e) => setEditInput(e.target.value)} onKeyUp={(e) => e.key === 'Enter' && updateTaskValue()}/>
                 <button onClick={() => updateTaskValue()}>Save</button>
             </div>
             </Modal>
+            <ToastContainer />
         </div>
     )
 }

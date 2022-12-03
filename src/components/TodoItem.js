@@ -4,7 +4,7 @@ function TodoItem ({item, deleteItem, completeItem, openModal}) {
     return(
         <li className={item.done? 'todo-item complete-item' : 'todo-item incomplete-item'} onClick={(e) => completeItem(item)}>
             <button>
-               {item.done ? <RiCloseFill className='status-item'/> : <RiCheckFill className='status-item'/>}
+               {item.done ? <RiCheckFill className='status-item'/> : <RiCloseFill className='status-item'/>}
             </button>
             <p>{item.value}</p>
             <div>
